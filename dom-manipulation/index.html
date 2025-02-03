@@ -9,22 +9,19 @@
 <body>
     <h1>Dynamic Quote Generator</h1>
 
-    <!-- Category Filter Dropdown -->
     <label for="categoryFilter">Filter by Category:</label>
     <select id="categoryFilter" onchange="filterQuotes()">
         <option value="all">All Categories</option>
     </select>
 
-    <!-- Add New Quote Form -->
     <input type="text" id="quoteInput" placeholder="Enter a new quote">
     <input type="text" id="categoryInput" placeholder="Enter category">
     <button onclick="addQuote()">Add Quote</button>
 
-    <!-- Sync Button -->
     <button id="syncQuotes">Sync with Server</button>
     <div id="syncStatus"></div>
+    <div id="notification"></div> <!-- Added notification system -->
 
-    <!-- Quotes Display -->
     <div id="quoteDisplay"></div>
 
     <script src="script.js"></script>
