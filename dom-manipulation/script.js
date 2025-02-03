@@ -26,54 +26,25 @@ function addQuote() {
     document.getElementById("quoteInput").value = "";
     document.getElementById("categoryInput").value = "";
 
-    uploadNewQuote(newQuote);
+    uploadNewQuote(newQuote); // Upload to mock API
     populateCategories();
     filterQuotes();
 }
 
-// Populate categories dynamically
-function populateCategories() {
-    let quotes = JSON.parse(localStorage.getItem("quotes")) || [];
-    let categories = new Set(quotes.map(q => q.category));
-    let categoryFilter = document.getElementById("categoryFilter");
-
-    categoryFilter.innerHTML = '<option value="all">All Categories</option>';
-    categories.forEach(category => {
-        let option = document.createElement("option");
-        option.value = category;
-        option.textContent = category;
-        categoryFilter.appendChild(option);
-    });
-}
-
-// Filter quotes by category
-function filterQuotes() {
-    let selectedCategory = document.getElementById("categoryFilter").value;
-    localStorage.setItem("lastSelectedCategory", selectedCategory);
-
-    let quotes = JSON.parse(localStorage.getItem("quotes")) || [];
-    let filteredQuotes = selectedCategory === "all" ? quotes : quotes.filter(q => q.category === selectedCategory);
-
-    displayQuotes(filteredQuotes);
-}
-
-// Display quotes in the UI
-function displayQuotes(quotes) {
-    let quoteDisplay = document.getElementById("quoteDisplay");
-    quoteDisplay.innerHTML = "";
-
-    quotes.forEach(quote => {
-        let quoteElement = document.createElement("p");
-        quoteElement.textContent = `"${quote.text}" - Category: ${quote.category}`;
-        quoteDisplay.appendChild(quoteElement);
-    });
-}
-
-// Load stored quotes
-function loadQuotes() {
-    let lastCategory = localStorage.getItem("lastSelectedCategory") || "all";
-    document.getElementById("categoryFilter").value = lastCategory;
-    filterQuotes();
+// Upload new quote to server (fixed Content-Type)
+async function uploadNewQuote(quote) {
+    try {
+        await fetch(SERVER_URL, {
+            method: "POST",
+            body: JSON.stringify({ body: quote.text, category: quote.category, userId: 1 }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        console.log("Quote successfully uploaded to server!");
+    } catch (error) {
+        console.error("Error uploading quote:", error);
+    }
 }
 
 // Fetch quotes from server (mock API)
@@ -89,19 +60,6 @@ async function fetchQuotesFromServer() {
     } catch (error) {
         console.error("Error fetching quotes:", error);
         return [];
-    }
-}
-
-// Upload new quote to server
-async function uploadNewQuote(quote) {
-    try {
-        await fetch(SERVER_URL, {
-            method: "POST",
-            body: JSON.stringify({ body: quote.text, userId: 1 }),
-            headers: { "Content-type": "application/json; charset=UTF-8" }
-        });
-    } catch (error) {
-        console.error("Error uploading quote:", error);
     }
 }
 
