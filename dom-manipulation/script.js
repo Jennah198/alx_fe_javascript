@@ -26,12 +26,12 @@ function addQuote() {
     document.getElementById("quoteInput").value = "";
     document.getElementById("categoryInput").value = "";
 
-    uploadNewQuote(newQuote); // Upload to mock API
+    uploadNewQuote(newQuote);
     populateCategories();
     filterQuotes();
 }
 
-// Upload new quote to server (fixed Content-Type)
+// Upload new quote to server
 async function uploadNewQuote(quote) {
     try {
         await fetch(SERVER_URL, {
@@ -41,13 +41,14 @@ async function uploadNewQuote(quote) {
                 "Content-Type": "application/json"
             }
         });
-        console.log("Quote successfully uploaded to server!");
+        displayNotification("Quote successfully uploaded to server!");
     } catch (error) {
+        displayNotification("Error uploading quote!", true);
         console.error("Error uploading quote:", error);
     }
 }
 
-// Fetch quotes from server (mock API)
+// Fetch quotes from server
 async function fetchQuotesFromServer() {
     try {
         const response = await fetch(SERVER_URL);
@@ -58,6 +59,7 @@ async function fetchQuotesFromServer() {
             dateAdded: new Date().toISOString()
         }));
     } catch (error) {
+        displayNotification("Error fetching quotes from server!", true);
         console.error("Error fetching quotes:", error);
         return [];
     }
@@ -74,11 +76,12 @@ async function syncQuotes() {
         localStorage.setItem("quotes", JSON.stringify(mergedQuotes));
         localStorage.setItem("lastSync", Date.now());
 
-        displayNotification("Quotes updated from server!");
+        displayNotification("Quotes synced with server!");
         populateCategories();
         filterQuotes();
         document.getElementById("syncStatus").textContent = "Sync complete!";
     } catch (error) {
+        displayNotification("Sync failed!", true);
         console.error("Sync failed:", error);
         document.getElementById("syncStatus").textContent = "Sync failed!";
     }
@@ -98,9 +101,10 @@ function mergeQuotes(local, server) {
 }
 
 // Show notification to user
-function displayNotification(message) {
+function displayNotification(message, isError = false) {
     let notification = document.getElementById("notification");
     notification.textContent = message;
+    notification.style.backgroundColor = isError ? "red" : "green";
     notification.style.display = "block";
 
     setTimeout(() => {
