@@ -1,117 +1,50 @@
-/* Global Styles */
 body {
-    background: linear-gradient(to bottom right, #fefefe, #e2e2e2);
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    color: #333;
-  }
-  
-  /* Page Title */
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    text-align: center;
-    color: #444;
-  }
-  
-  /* Quote Display Area */
-  #quoteDisplay {
-    background: #fff;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 1rem;
-    max-width: 600px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  #quoteDisplay p {
-    font-size: 1.3rem;
-    margin: 0 0 10px;
-    font-style: italic;
-  }
-  
-  #quoteDisplay small {
-    font-size: 0.9rem;
-    color: #777;
-  }
-  
-  /* Buttons */
-  button {
-    background: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  button:hover {
-    background: #0056b3;
-  }
-  
-  /* Add Quote Form Container */
-  #addQuoteFormContainer {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    margin-top: 1.5rem;
-    max-width: 600px;
-    width: 100%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  #addQuoteFormContainer h2 {
-    margin-top: 0;
-    font-size: 1.5rem;
-    color: #333;
-    text-align: center;
-  }
-  
-  /* Input Fields in the Form */
-  #addQuoteFormContainer input[type="text"] {
-    width: calc(50% - 10px);
-    padding: 10px;
-    margin: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  
-  /* Form Button (Add Quote) */
-  #addQuoteFormContainer button {
-    display: block;
-    width: 100%;
-    margin-top: 10px;
-    background: #28a745;
-  }
-  
-  #addQuoteFormContainer button:hover {
-    background: #218838;
-  }
-  
-  /* Export/Import Controls */
-  #exportJson {
-    background: #6c757d;
-  }
-  
-  #exportJson:hover {
-    background: #5a6268;
-  }
-  
-  #importFile {
-    margin-top: 10px;
-    display: block;
-    font-size: 1rem;
-  }
-  
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  color: #333;
+}
+
+#categoryFilter {
+  padding: 8px;
+  margin: 10px;
+}
+
+#quoteDisplay {
+  margin-top: 20px;
+  font-size: 18px;
+  font-style: italic;
+  padding: 20px;
+  background: white;
+  border-radius: 5px;
+  display: inline-block;
+  min-width: 300px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#addQuoteFormContainer {
+  margin-top: 20px;
+  background: white;
+  padding: 15px;
+  border-radius: 5px;
+  display: inline-block;
+}
