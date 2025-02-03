@@ -48,3 +48,8 @@ button:hover {
   border-radius: 5px;
   display: inline-block;
 }
+#syncStatus {
+  margin-top: 10px;
+  font-size: 14px;
+  color: green;
+}

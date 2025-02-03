@@ -101,3 +101,90 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('newQuote').addEventListener('click', showRandomQuote);
     document.getElementById('addQuoteBtn').addEventListener('click', addQuote);
 });
+const SERVER_URL = "https://jsonplaceholder.typicode.com/posts"; // Simulated API
+
+// Function to fetch quotes from server and sync with local storage
+async function syncWithServer() {
+    try {
+        document.getElementById('syncStatus').textContent = "Syncing...";
+        
+        const response = await fetch(SERVER_URL);
+        const serverQuotes = await response.json();
+        
+        let localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
+        let lastSync = localStorage.getItem('lastSync') || 0;
+        let newQuotes = [];
+
+        serverQuotes.forEach(serverQuote => {
+            // Check if quote exists in local storage
+            const existingQuote = localQuotes.find(q => q.text === serverQuote.body);
+            if (!existingQuote) {
+                newQuotes.push({ text: serverQuote.body, category: "server" }); 
+            }
+        });
+
+        // Merge new quotes
+        localQuotes = [...localQuotes, ...newQuotes];
+        localStorage.setItem('quotes', JSON.stringify(localQuotes));
+        localStorage.setItem('lastSync', Date.now());
+
+        document.getElementById('syncStatus').textContent = "Sync complete!";
+        populateCategories();
+        filterQuotes();
+    } catch (error) {
+        console.error("Sync failed:", error);
+        document.getElementById('syncStatus').textContent = "Sync failed!";
+    }
+}
+
+// Function to upload new quotes to the server (simulation)
+async function uploadNewQuotes() {
+    let localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
+    let lastSync = localStorage.getItem('lastSync') || 0;
+    
+    // Get quotes added after last sync
+    let newQuotes = localQuotes.filter(q => new Date(q.dateAdded || 0) > new Date(lastSync));
+
+    if (newQuotes.length === 0) {
+        console.log("No new quotes to upload.");
+        return;
+    }
+
+    for (let quote of newQuotes) {
+        try {
+            await fetch(SERVER_URL, {
+                method: "POST",
+                body: JSON.stringify({ body: quote.text, userId: 1 }),
+                headers: { "Content-type": "application/json; charset=UTF-8" }
+            });
+        } catch (error) {
+            console.error("Failed to upload quote:", quote.text);
+        }
+    }
+}
+
+// Function to resolve conflicts (Server takes priority)
+function resolveConflicts(serverQuotes) {
+    let localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
+    let resolvedQuotes = [];
+
+    serverQuotes.forEach(serverQuote => {
+        let localQuote = localQuotes.find(q => q.text === serverQuote.body);
+        if (localQuote) {
+            resolvedQuotes.push({ text: serverQuote.body, category: "server" });
+        } else {
+            resolvedQuotes.push(localQuote);
+        }
+    });
+
+    localStorage.setItem('quotes', JSON.stringify(resolvedQuotes));
+}
+
+// Sync quotes every 30 seconds
+setInterval(syncWithServer, 30000);
+
+// Event listener for manual sync
+document.getElementById('syncQuotes').addEventListener('click', syncWithServer);
+
+// Run sync on page load
+document.addEventListener('DOMContentLoaded', syncWithServer);
