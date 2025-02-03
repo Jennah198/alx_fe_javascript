@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
     <h1>Dynamic Quote Generator</h1>
 
     <!-- Category Filter Dropdown -->
@@ -16,20 +15,17 @@
         <option value="all">All Categories</option>
     </select>
 
-    <!-- Quote Display Section -->
-    <div id="quoteDisplay"></div>
-    
-    <button id="newQuote">Show New Quote</button>
+    <!-- Add New Quote Form -->
+    <input type="text" id="quoteInput" placeholder="Enter a new quote">
+    <input type="text" id="categoryInput" placeholder="Enter category">
+    <button onclick="addQuote()">Add Quote</button>
 
-    <!-- Form to Add New Quotes -->
-    <div id="addQuoteFormContainer">
-        <h2>Add a New Quote</h2>
-        <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
-        <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-        <button id="addQuoteBtn">Add Quote</button>
-    </div>
-        <button id="syncQuotes">Sync with Server</button>
+    <!-- Sync Button -->
+    <button id="syncQuotes">Sync with Server</button>
     <div id="syncStatus"></div>
+
+    <!-- Quotes Display -->
+    <div id="quoteDisplay"></div>
 
     <script src="script.js"></script>
 </body>
